@@ -240,6 +240,31 @@ textarea {
   cursor: pointer;
 }
 
+.fallback-indicator {
+  position: relative;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: yellow;
+  color: black;
+  font-size: 0.8rem;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-left: 0.5rem;
+}
+
+.fallback-indicator::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-width: 0 1.25rem 1.25rem 0;
+  border-style: solid;
+  border-color: #f8fafc transparent transparent #f8fafc;
+}
+
 .hero {
   position: relative;
   overflow: hidden;
@@ -379,6 +404,15 @@ textarea {
 
 .tag--note {
   margin-top: 0.4rem;
+}
+
+.tag--hidden {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.card--hover:hover .tag--hidden {
+    opacity: 1;
 }
 
 .mt-lg {
@@ -607,6 +641,21 @@ textarea {
   box-shadow: var(--shadow-lg);
 }
 
+.map-responsive {
+  overflow:hidden;
+  padding-bottom:56.25%;
+  position:relative;
+  height:0;
+}
+
+.map-responsive iframe{
+  left:0;
+  top:0;
+  height:100%;
+  width:100%;
+  position:absolute;
+}
+
 .feature-item {
   display: flex;
   gap: 0.9rem;
@@ -781,4 +830,24 @@ textarea {
     align-items: center;
     justify-content: space-between;
   }
+
+  .menu-btn {
+    display: none;
+  }
+}
+
+/* Utility for flex-grow */
+.flex-1 {
+  flex: 1;
+}
+
+/* Hover styles for buttons */
+.btn-secondary:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
 }
