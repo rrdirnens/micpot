@@ -5,17 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>About Us | MICPOT - Global Industrial Supply</title>
   <link rel="stylesheet" href="styles/main.css"/>
+  <script src="scripts/translations.js" defer></script>
   <script src="scripts/main.js" defer></script>
 </head>
-<body data-page="about">
+<body data-page="about" data-lang="en">
   <div id="site-header"></div>
 
   <section class="hero hero--about">
     <div class="container">
       <div class="hero-content">
-        <span class="eyebrow">Corporate Profile</span>
-        <h1 class="hero-title">About <span class="highlight">MICPOT</span></h1>
-        <p class="hero-subtitle">A new generation of technical supply for global industry.</p>
+        <span class="eyebrow" data-i18n="about.hero.eyebrow">Corporate Profile</span>
+        <h1 class="hero-title" data-i18n="about.hero.title" data-i18n-mode="html">About <span class="highlight">MICPOT</span></h1>
+        <p class="hero-subtitle" data-i18n="about.hero.subtitle">A new generation of technical supply for global industry.</p>
       </div>
     </div>
   </section>
@@ -23,25 +24,26 @@
   <section class="section" id="mission">
     <div class="container grid grid-2">
       <div class="stack">
-        <h2 class="section-title">Our Mission</h2>
+        <h2 class="section-title" data-i18n="about.mission.title">Our Mission</h2>
+        <p class="card-text" data-i18n="about.mission.text1">
           As a forward-thinking company, MICPOT was established to bridge the gap between complex industrial needs and streamlined procurement solutions. We believe that modern global industry requires more than just parts; it requires a strategic partner.
         </p>
-        <p class="card-text">
+        <p class="card-text" data-i18n="about.mission.text2" data-i18n-mode="html">
           Our focus is built on three pillars: <strong>Absolute Precision</strong> in technical selection, <strong>Modern Logistics</strong> infrastructure for global reach, and a <strong>Comprehensive Approach</strong> to technical procurement that eliminates operational friction.
         </p>
         <div class="grid grid-2">
           <div class="card">
             <div class="section-title">100%</div>
-            <div class="card-text">Quality Control</div>
+            <div class="card-text" data-i18n="about.mission.stat1">Quality Control</div>
           </div>
           <div class="card">
             <div class="section-title">24/7</div>
-            <div class="card-text">Global Logistics</div>
+            <div class="card-text" data-i18n="about.mission.stat2">Global Logistics</div>
           </div>
         </div>
       </div>
       <div class="feature-image feature-placeholder" role="img" aria-label="Technical Precision">
-        <h3>Technical Precision</h3>
+        <h3 data-i18n="about.mission.placeholder">Technical Precision</h3>
       </div>
     </div>
   </section>
@@ -49,16 +51,16 @@
   <section class="section section--surface" id="principles">
     <div class="container">
       <div class="section-header section-header--center">
-        <h2 class="section-title">Core Principles</h2>
-        <p class="section-lead">The values that define our operational DNA and strategic direction.</p>
+        <h2 class="section-title" data-i18n="about.principles.title">Core Principles</h2>
+        <p class="section-lead" data-i18n="about.principles.lead">The values that define our operational DNA and strategic direction.</p>
       </div>
       <div class="grid grid-3">
         <div class="card card--hover">
           <div class="feature-item">
             <span class="icon" aria-hidden="true">settings_input_component</span>
             <div>
-              <div class="card-title">Technological Excellence</div>
-              <p class="card-text">Utilizing the latest diagnostic tools and technical standards to ensure every component meets high-performance industrial requirements.</p>
+              <div class="card-title" data-i18n="about.principles.card1.title">Technological Excellence</div>
+              <p class="card-text" data-i18n="about.principles.card1.text">Utilizing the latest diagnostic tools and technical standards to ensure every component meets high-performance industrial requirements.</p>
             </div>
           </div>
         </div>
@@ -66,8 +68,8 @@
           <div class="feature-item">
             <span class="icon" aria-hidden="true">inventory_2</span>
             <div>
-              <div class="card-title">Supply Reliability</div>
-              <p class="card-text">Developing robust supply chain networks that guarantee consistency and speed, regardless of geographical complexity or scale.</p>
+              <div class="card-title" data-i18n="about.principles.card2.title">Supply Reliability</div>
+              <p class="card-text" data-i18n="about.principles.card2.text">Developing robust supply chain networks that guarantee consistency and speed, regardless of geographical complexity or scale.</p>
             </div>
           </div>
         </div>
@@ -75,8 +77,8 @@
           <div class="feature-item">
             <span class="icon" aria-hidden="true">handshake</span>
             <div>
-              <div class="card-title">Professional Partnership</div>
-              <p class="card-text">Fostering long-term cooperation built on transparency, technical expertise, and a deep understanding of our clients' industrial goals.</p>
+              <div class="card-title" data-i18n="about.principles.card3.title">Professional Partnership</div>
+              <p class="card-text" data-i18n="about.principles.card3.text">Fostering long-term cooperation built on transparency, technical expertise, and a deep understanding of our clients' industrial goals.</p>
             </div>
           </div>
         </div>
@@ -87,15 +89,15 @@
   <section class="section" id="history">
     <div class="container px-4 sm:px-6 lg:px-8 grid grid-2">
       <div class="stack">
-        <h2 class="section-title">History &amp; <span class="highlight">Future Path</span></h2>
+        <h2 class="section-title" data-i18n="about.history.title" data-i18n-mode="html">History &amp; <span class="highlight">Future Path</span></h2>
           <div class="history-item">
             <div class="history-track">
               <span class="history-dot"></span>
               <span class="history-line"></span>
             </div>
             <div>
-              <div class="card-title">Founding Vision</div>
-              <p class="card-text">Established by industry experts to modernize technical supply chains.</p>
+              <div class="card-title" data-i18n="about.history.item1.title">Founding Vision</div>
+              <p class="card-text" data-i18n="about.history.item1.text">Established by industry experts to modernize technical supply chains.</p>
             </div>
           </div>
    
@@ -105,8 +107,8 @@
               <span class="history-line"></span>
             </div>
             <div>
-              <div class="card-title">Global Expansion</div>
-              <p class="card-text">Rapid growth of our warehouse and distribution networks across EU and beyond.</p>
+              <div class="card-title" data-i18n="about.history.item2.title">Global Expansion</div>
+              <p class="card-text" data-i18n="about.history.item2.text">Rapid growth of our warehouse and distribution networks across EU and beyond.</p>
             </div>
           </div>
    
@@ -115,29 +117,29 @@
               <span class="history-dot"></span>
             </div>
             <div>
-              <div class="card-title">Industry 4.0</div>
-              <p class="card-text">Integrating AI and digital tracking into our core logistics operations.</p>
+              <div class="card-title" data-i18n="about.history.item3.title">Industry 4.0</div>
+              <p class="card-text" data-i18n="about.history.item3.text">Integrating AI and digital tracking into our core logistics operations.</p>
             </div>
           </div>
         </div>
       <div class="card">
-        <h3 class="card-title">A Future-Ready Approach</h3>
-        <p class="card-text">
+        <h3 class="card-title" data-i18n="about.future.title">A Future-Ready Approach</h3>
+        <p class="card-text" data-i18n="about.future.text">
           While MICPOT is a new name in the global landscape, our foundation is built upon decades of collective team expertise in the industrial sector. We do not just supply parts; we supply the expertise required to integrate those parts into high-performance environments.
         </p>
         <div class="stack mt-lg">
           <div class="feature-item">
             <span class="icon" aria-hidden="true">analytics</span>
             <div>
-              <div class="feature-title">Data-Driven Sourcing</div>
-              <p class="card-text">Predictive analysis of industrial trends ensures we maintain stock for critical upcoming needs.</p>
+              <div class="feature-title" data-i18n="about.future.item1.title">Data-Driven Sourcing</div>
+              <p class="card-text" data-i18n="about.future.item1.text">Predictive analysis of industrial trends ensures we maintain stock for critical upcoming needs.</p>
             </div>
           </div>
           <div class="feature-item">
             <span class="icon" aria-hidden="true">rocket_launch</span>
             <div>
-              <div class="feature-title">Scale Readiness</div>
-              <p class="card-text">Our infrastructure is built for rapid scaling, supporting projects from single units to full-scale plant setups.</p>
+              <div class="feature-title" data-i18n="about.future.item2.title">Scale Readiness</div>
+              <p class="card-text" data-i18n="about.future.item2.text">Our infrastructure is built for rapid scaling, supporting projects from single units to full-scale plant setups.</p>
             </div>
           </div>
         </div>
