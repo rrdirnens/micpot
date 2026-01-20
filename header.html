@@ -1,24 +1,50 @@
 <header class="site-header">
   <div class="container header-inner">
-    <a class="brand" href="home.html" aria-label="MICPOT home" data-home-link>
+    <a class="brand" href="index.html" aria-label="MICPOT home" data-home-link>
       <div class="brand-mark">
         <span class="icon" aria-hidden="true">precision_manufacturing</span>
       </div>
       <span class="brand-text">MICPOT</span>
     </a>
     <nav class="site-nav" aria-label="Primary">
-      <a class="nav-link" href="home.html" data-page="home" data-i18n="nav.home">Home</a>
+      <a class="nav-link" href="index.html" data-page="home" data-i18n="nav.home">Home</a>
       <a class="nav-link" href="portfolio.html" data-page="portfolio" data-i18n="nav.portfolio">Portfolio</a>
       <a class="nav-link" href="about.html" data-page="about" data-i18n="nav.about">About Us</a>
       <a class="nav-link" href="contact.html" data-page="contact" data-i18n="nav.contact">Contacts</a>
     </nav>
     <div class="header-actions">
       <div class="lang-switch" aria-label="Language switch">
-        <a class="lang-btn" href="home.html?lang=en" data-lang="en">EN</a>
-        <a class="lang-btn" href="home.html?lang=pl" data-lang="pl">PL</a>
+        <a class="lang-btn" href="index.html?lang=en" data-lang="en">EN</a>
+        <a class="lang-btn" href="index.html?lang=pl" data-lang="pl">PL</a>
       </div>
-      <button class="menu-btn" type="button" aria-label="Open menu">☰</button>
+      <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">☰</button>
       <div class="fallback-indicator" style="display: none;"><b>FB</b></div>
+    </div>
+  </div>
+
+  <!-- Mobile drawer menu (populated by JS from .site-nav for language-aware links). -->
+  <div class="mobile-nav" id="mobile-nav" aria-hidden="true">
+    <button class="mobile-nav__backdrop" type="button" data-mobile-close aria-label="Close menu"></button>
+    <div class="mobile-nav__panel" role="dialog" aria-modal="true" aria-label="Menu">
+      <div class="mobile-nav__top">
+        <div class="mobile-nav__title" data-i18n="mobileMenu.title">Menu</div>
+        <button class="mobile-nav__close" type="button" data-mobile-close aria-label="Close menu">✕</button>
+      </div>
+      <div class="mobile-nav__links" data-mobile-links></div>
+      <div class="mobile-nav__lang lang-switch" aria-label="Language switch">
+        <a class="lang-btn" href="index.html?lang=en" data-lang="en">EN</a>
+        <a class="lang-btn" href="index.html?lang=pl" data-lang="pl">PL</a>
+      </div>
+      <div class="mobile-nav__meta">
+        <a class="mobile-nav__meta-link" href="tel:+48123456789">
+          <span class="icon" aria-hidden="true">call</span>
+          <span data-i18n="mobileMenu.phone">+48 123 456 789</span>
+        </a>
+        <a class="mobile-nav__meta-link" href="mailto:office@micpot.pl">
+          <span class="icon" aria-hidden="true">alternate_email</span>
+          <span data-i18n="mobileMenu.email">office@micpot.pl</span>
+        </a>
+      </div>
     </div>
   </div>
 </header>

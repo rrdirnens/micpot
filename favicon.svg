@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!--
+    Simple brand-matching favicon.
+    We mirror the header brand-mark styling: orange rounded square + white mark.
+    (Using pure paths/shapes so it works without relying on web fonts.)
+  -->
+  <rect x="4" y="4" width="56" height="56" rx="14" fill="#dc420f"/>
+  <!-- Stylized "M" mark -->
+  <path
+    d="M18 44V20h6.2l7.8 12.6L39.8 20H46v24h-6V30.7l-7 10.9h-2l-7-10.9V44z"
+    fill="#ffffff"/>
+</svg>

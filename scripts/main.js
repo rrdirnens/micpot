@@ -3,25 +3,51 @@
 const headerFallback = `
 <header class="site-header">
   <div class="container header-inner">
-    <a class="brand" href="home.html" aria-label="MICPOT home" data-home-link>
+    <a class="brand" href="index.html" aria-label="MICPOT home" data-home-link>
       <div class="brand-mark">
         <span class="icon" aria-hidden="true">precision_manufacturing</span>
       </div>
       <span class="brand-text">MICPOT</span>
     </a>
   <nav class="site-nav" aria-label="Primary">
-      <a class="nav-link" href="home.html" data-page="home" data-i18n="nav.home">Home</a>
+      <a class="nav-link" href="index.html" data-page="home" data-i18n="nav.home">Home</a>
       <a class="nav-link" href="portfolio.html" data-page="portfolio" data-i18n="nav.portfolio">Portfolio</a>
       <a class="nav-link" href="about.html" data-page="about" data-i18n="nav.about">About Us</a>
       <a class="nav-link" href="contact.html" data-page="contact" data-i18n="nav.contact">Contacts</a>
     </nav>
     <div class="header-actions">
       <div class="lang-switch" aria-label="Language switch">
-        <a class="lang-btn" href="home.html?lang=en" data-lang="en">EN</a>
-        <a class="lang-btn" href="home.html?lang=pl" data-lang="pl">PL</a>
+        <a class="lang-btn" href="index.html?lang=en" data-lang="en">EN</a>
+        <a class="lang-btn" href="index.html?lang=pl" data-lang="pl">PL</a>
       </div>
-      <button class="menu-btn" type="button" aria-label="Open menu">☰</button>
+      <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">☰</button>
       <div class="fallback-indicator">FB</div> <!-- Fallback indicator -->
+    </div>
+  </div>
+
+  <!-- Mobile drawer menu (populated by JS from .site-nav for language-aware links). -->
+  <div class="mobile-nav" id="mobile-nav" aria-hidden="true">
+    <button class="mobile-nav__backdrop" type="button" data-mobile-close aria-label="Close menu"></button>
+    <div class="mobile-nav__panel" role="dialog" aria-modal="true" aria-label="Menu">
+      <div class="mobile-nav__top">
+        <div class="mobile-nav__title" data-i18n="mobileMenu.title">Menu</div>
+        <button class="mobile-nav__close" type="button" data-mobile-close aria-label="Close menu">✕</button>
+      </div>
+      <div class="mobile-nav__links" data-mobile-links></div>
+      <div class="mobile-nav__lang lang-switch" aria-label="Language switch">
+        <a class="lang-btn" href="index.html?lang=en" data-lang="en">EN</a>
+        <a class="lang-btn" href="index.html?lang=pl" data-lang="pl">PL</a>
+      </div>
+      <div class="mobile-nav__meta">
+        <a class="mobile-nav__meta-link" href="tel:+48123456789">
+          <span class="icon" aria-hidden="true">call</span>
+          <span data-i18n="mobileMenu.phone">+48 123 456 789</span>
+        </a>
+        <a class="mobile-nav__meta-link" href="mailto:office@micpot.pl">
+          <span class="icon" aria-hidden="true">alternate_email</span>
+          <span data-i18n="mobileMenu.email">office@micpot.pl</span>
+        </a>
+      </div>
     </div>
   </div>
 </header>
@@ -34,7 +60,7 @@ const footerFallback = `
   <div class="container">
     <div class="footer-grid">
       <div class="stack">
-        <a class="brand" href="home.html" aria-label="MICPOT home" data-home-link>
+        <a class="brand" href="index.html" aria-label="MICPOT home" data-home-link>
           <div class="brand-mark">
             <span class="icon" aria-hidden="true">precision_manufacturing</span>
           </div>
@@ -52,7 +78,7 @@ const footerFallback = `
       <div>
         <h4 class="footer-title" data-i18n="footer.nav.title">Navigation</h4>
         <div class="footer-links">
-          <a href="home.html" data-i18n="footer.nav.home">Home</a>
+          <a href="index.html" data-i18n="footer.nav.home">Home</a>
           <a href="portfolio.html" data-i18n="footer.nav.portfolio">Portfolio</a>
           <a href="about.html" data-i18n="footer.nav.about">About Us</a>
           <a href="contact.html" data-i18n="footer.nav.contact">Contacts</a>
@@ -93,6 +119,19 @@ const footerFallback = `
   </div>
 </footer>
 `;
+
+// Ensure the site has a favicon even though we load header/footer as partials.
+// (We inject it via JS so we don't have to duplicate <link rel="icon"> into every HTML <head>.)
+const ensureFavicon = () => {
+  const existing = document.querySelector('link[rel="icon"], link[rel="shortcut icon"]');
+  if (existing) return;
+
+  const link = document.createElement("link");
+  link.rel = "icon";
+  link.href = "favicon.svg";
+  link.type = "image/svg+xml";
+  document.head.appendChild(link);
+};
 
 // Sets the current year in elements with 'data-year' attribute.
 const setYear = () => {
@@ -167,9 +206,9 @@ const resolveLanguage = () => {
 // Adjusts language switch links and active state based on the current page's language.
 const setLanguageLinks = () => {
   const lang = document.body.dataset.lang || "en";
-  const path = window.location.pathname.split("/").pop() || "home.html";
+  const path = window.location.pathname.split("/").pop() || "index.html";
   const buildLangUrl = (nextLang) => `${path}?lang=${nextLang}`;
-  const homeHref = `home.html?lang=${lang}`;
+  const homeHref = `index.html?lang=${lang}`;
 
   document.querySelectorAll("[data-home-link]").forEach((link) => {
     link.setAttribute("href", homeHref);
@@ -210,6 +249,89 @@ const setLocalizedLinks = (lang) => {
   });
 };
 
+// Mobile hamburger menu: clones the existing header links so they stay language-aware.
+const setupMobileMenu = () => {
+  const header = document.querySelector(".site-header");
+  if (!header) {
+    console.warn("[mobile-menu] No .site-header found; menu not initialized.");
+    return;
+  }
+
+  const menuBtn = header.querySelector(".menu-btn");
+  // Important: AOS/animations may apply transforms to the header, which would cause
+  // position: fixed elements inside it to behave like they're fixed to the header.
+  // So we mount the drawer under <body> to guarantee full-viewport positioning.
+  const drawer = document.getElementById("mobile-nav") || header.querySelector("#mobile-nav");
+  const desktopNav = header.querySelector(".site-nav");
+  const linksHost = drawer?.querySelector("[data-mobile-links]");
+  const closeEls = drawer?.querySelectorAll("[data-mobile-close]") || [];
+  const closeBtn = drawer?.querySelector(".mobile-nav__close");
+
+  if (!menuBtn || !drawer || !desktopNav || !linksHost) {
+    console.warn("[mobile-menu] Missing required elements.", {
+      hasMenuBtn: Boolean(menuBtn),
+      hasDrawer: Boolean(drawer),
+      hasDesktopNav: Boolean(desktopNav),
+      hasLinksHost: Boolean(linksHost)
+    });
+    return;
+  }
+
+  if (drawer.parentElement !== document.body) {
+    document.body.appendChild(drawer);
+  }
+
+  // Populate drawer links from desktop nav (idempotent).
+  linksHost.innerHTML = "";
+  desktopNav.querySelectorAll("a.nav-link").forEach((link) => {
+    const cloned = link.cloneNode(true);
+    cloned.addEventListener("click", () => closeMenu());
+    linksHost.appendChild(cloned);
+  });
+
+  if (drawer.dataset.bound === "true") return;
+  drawer.dataset.bound = "true";
+  console.info("[mobile-menu] Bound mobile menu events.");
+
+  const openMenu = () => {
+    drawer.classList.add("is-open");
+    drawer.setAttribute("aria-hidden", "false");
+    menuBtn.setAttribute("aria-expanded", "true");
+    document.body.classList.add("is-menu-open");
+    (closeBtn || drawer).focus?.();
+    console.debug("[mobile-menu] Opened.");
+  };
+
+  const closeMenu = () => {
+    drawer.classList.remove("is-open");
+    drawer.setAttribute("aria-hidden", "true");
+    menuBtn.setAttribute("aria-expanded", "false");
+    document.body.classList.remove("is-menu-open");
+    menuBtn.focus?.();
+    console.debug("[mobile-menu] Closed.");
+  };
+
+  const toggleMenu = () => {
+    if (drawer.classList.contains("is-open")) closeMenu();
+    else openMenu();
+  };
+
+  menuBtn.addEventListener("click", toggleMenu);
+  closeEls.forEach((el) => el.addEventListener("click", closeMenu));
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && drawer.classList.contains("is-open")) {
+      closeMenu();
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.matchMedia("(min-width: 768px)").matches) {
+      closeMenu();
+    }
+  });
+};
+
 // Apply translations to elements on the page.
 const applyTranslations = (lang) => {
   const pageTranslations = window.TRANSLATIONS?.[lang];
@@ -232,6 +354,74 @@ const applyTranslations = (lang) => {
       element.textContent = value;
     }
   });
+};
+
+// Loads AOS assets if they are not yet present.
+const loadAosAssets = () => {
+  if (window.AOS) return Promise.resolve();
+
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/aos@2.3.4/dist/aos.js";
+    script.defer = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("AOS failed to load"));
+    document.head.appendChild(script);
+  });
+};
+
+// Adds default AOS attributes to section blocks.
+const applyAosAttributes = () => {
+  document.querySelectorAll("section.section").forEach((section) => {
+    if (section.dataset.aos) return;
+    section.dataset.aos = "fade-up";
+    section.dataset.aosDuration = "800";
+  });
+};
+
+// Adds a one-time AOS animation to the header when it first becomes sticky.
+const setupStickyHeaderAos = () => {
+  const header = document.querySelector(".site-header");
+  if (!header) return;
+
+  const activateHeaderAos = () => {
+    if (window.scrollY < 10) return;
+    if (!header.dataset.aos) {
+      header.dataset.aos = "fade-down";
+      header.dataset.aosDuration = "600";
+      window.AOS?.refreshHard();
+    }
+    window.removeEventListener("scroll", activateHeaderAos);
+  };
+
+  window.addEventListener("scroll", activateHeaderAos, { passive: true });
+  activateHeaderAos();
+};
+
+const initAos = async () => {
+  try {
+    await loadAosAssets();
+  } catch (error) {
+    console.warn("AOS assets could not be loaded.", error);
+    return;
+  }
+
+  applyAosAttributes();
+  setTimeout(() => {
+    document.documentElement.classList.add("aos-ready");
+    window.AOS.init({
+      once: true,
+      duration: 800,
+      offset: 120,
+      easing: "ease-out-cubic"
+    });
+    window.AOS.refreshHard();
+    requestAnimationFrame(() => {
+      window.AOS.refresh();
+      window.dispatchEvent(new Event("scroll"));
+    });
+    setupStickyHeaderAos();
+  }, 1000);
 };
 
 const setupContactForm = (lang) => {
@@ -264,7 +454,7 @@ const setupContactForm = (lang) => {
     field.classList.toggle("is-invalid", isInvalid);
   };
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
     clearStatus();
 
@@ -294,18 +484,49 @@ const setupContactForm = (lang) => {
       return;
     }
 
-    if (!fields.company?.value.trim()) {
-      setStatus("warning", "contact.form.status.company");
-      return;
-    }
+    const submitBtn = form.querySelector('[type="submit"]');
+    if (submitBtn) submitBtn.disabled = true;
+    setStatus("warning", "contact.form.status.sending");
 
-    setStatus("success", "contact.form.status.success");
-    form.reset();
+    const payload = {
+      name: nameValue,
+      company: fields.company?.value.trim() || "",
+      email: emailValue,
+      message: messageValue,
+      website: form.querySelector('[name="website"]')?.value || ""
+    };
+
+    try {
+      const response = await fetch("api/contact.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json().catch(() => null);
+      if (!response.ok || !data?.ok) {
+        if (response.status === 429) {
+          setStatus("error", "contact.form.status.rate");
+        } else {
+          setStatus("error", "contact.form.status.server");
+        }
+        return;
+      }
+
+      setStatus("success", "contact.form.status.success");
+      form.reset();
+    } catch (error) {
+      console.error("[contact-form] Submit failed.", error);
+      setStatus("error", "contact.form.status.server");
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+    }
   });
 };
 
 // Smooth scrolling for anchor links.
 document.addEventListener("DOMContentLoaded", async () => {
+  ensureFavicon();
   const resolvedLang = resolveLanguage();
 
   // Load header and footer HTML partials.
@@ -313,9 +534,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   await loadPartial("site-footer", "footer.html");
 
   // Set active navigation link and language links.
+  setupMobileMenu();
   setActiveNav();
   setLanguageLinks();
   setLocalizedLinks(resolvedLang);
+  initAos();
   
   // This line is redundant as setYear() is called in loadPartial's finally block for site-footer.
   // setYear(); 

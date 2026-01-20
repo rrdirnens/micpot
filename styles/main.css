@@ -29,6 +29,33 @@ body {
   background: var(--dark-base);
   color: var(--text-main);
   line-height: 1.6;
+  padding-top: 5rem;
+}
+
+.aos-ready [data-aos] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition-property: opacity, transform;
+  transition-duration: 800ms;
+  transition-timing-function: ease-out;
+  will-change: opacity, transform;
+}
+
+.aos-ready [data-aos].aos-animate {
+  opacity: 1;
+  transform: none;
+}
+
+.aos-ready [data-aos="fade-down"] {
+  transform: translateY(-16px);
+}
+
+.aos-ready [data-aos][data-aos-duration="600"] {
+  transition-duration: 600ms;
+}
+
+.aos-ready [data-aos][data-aos-duration="800"] {
+  transition-duration: 800ms;
 }
 
 img {
@@ -115,6 +142,10 @@ textarea {
   color: #ffb997;
 }
 
+.hero .badge {
+  margin-bottom: 1rem;
+}
+
 .dot {
   width: 0.5rem;
   height: 0.5rem;
@@ -135,8 +166,10 @@ textarea {
 }
 
 .site-header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 20;
   background: rgba(18, 21, 28, 0.95);
   backdrop-filter: blur(12px);
@@ -240,6 +273,136 @@ textarea {
   cursor: pointer;
 }
 
+/* Mobile drawer nav */
+.mobile-nav {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+
+.mobile-nav__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.mobile-nav__panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: min(420px, 88vw);
+  background: var(--dark-surface);
+  border-left: 1px solid var(--border-color);
+  box-shadow: var(--shadow-xl);
+  transform: translateX(12px);
+  transition: transform 200ms ease;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mobile-nav__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.mobile-nav__title {
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.mobile-nav__close {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(10, 12, 16, 0.3);
+  color: #fff;
+  cursor: pointer;
+}
+
+.mobile-nav__links {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.25rem 0;
+}
+
+.mobile-nav__links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 0.9rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(10, 12, 16, 0.45);
+  color: #fff;
+  font-weight: 700;
+}
+
+.mobile-nav__links a:hover {
+  border-color: rgba(220, 66, 15, 0.45);
+  background: rgba(220, 66, 15, 0.12);
+}
+
+.mobile-nav__links a.is-active {
+  border-color: rgba(220, 66, 15, 0.7);
+}
+
+.mobile-nav__lang.lang-switch {
+  display: inline-flex;
+  align-self: flex-start;
+}
+
+.mobile-nav__meta {
+  margin-top: auto;
+  border-top: 1px solid var(--border-color);
+  padding-top: 1rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.mobile-nav__meta-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  padding: 0.75rem 0.9rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(10, 12, 16, 0.35);
+}
+
+.mobile-nav__meta-link:hover {
+  color: #fff;
+  border-color: rgba(220, 66, 15, 0.35);
+}
+
+body.is-menu-open {
+  overflow: hidden;
+}
+
+.mobile-nav.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-nav.is-open .mobile-nav__panel {
+  transform: translateX(0);
+}
+
 .fallback-indicator {
   position: relative;
   width: 2.5rem;
@@ -296,6 +459,10 @@ textarea {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+}
+
+.hero-actions .btn {
+  white-space: nowrap;
 }
 
 .btn {
@@ -820,6 +987,15 @@ textarea {
   font-size: 0.75rem;
 }
 
+/* Footer legal links should be horizontal (not stacked) everywhere, including fallbacks. */
+.footer-bottom .footer-links {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
 .social-row {
   display: flex;
   gap: 0.75rem;
@@ -879,6 +1055,37 @@ textarea {
 
   .menu-btn {
     display: none;
+  }
+
+  .mobile-nav {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero {
+    padding: 4rem 0;
+  }
+
+  .hero-title {
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-subtitle {
+    margin-bottom: 2.25rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
   }
 }
 

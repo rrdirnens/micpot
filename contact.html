@@ -4,6 +4,24 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>MICPOT Contacts Page | Technical Team Support</title>
+  <meta name="description" content="Contact MICPOT’s technical team for sourcing, specifications, quotes, and procurement support for industrial and automotive components."/>
+
+  <!-- Social sharing / link previews -->
+  <!-- NOTE: When moving to production, update the domain in these URLs. -->
+  <link rel="canonical" href="https://micpot.comadev.lv/contact.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="MICPOT"/>
+  <meta property="og:title" content="MICPOT Contacts Page | Technical Team Support"/>
+  <meta property="og:description" content="Contact MICPOT’s technical team for sourcing, specifications, quotes, and procurement support for industrial and automotive components."/>
+  <meta property="og:url" content="https://micpot.comadev.lv/contact.html"/>
+  <meta property="og:image" content="https://micpot.comadev.lv/assets/Screenshot_7.png"/>
+  <meta property="og:image:type" content="image/png"/>
+  <meta property="og:image:alt" content="MICPOT preview"/>
+
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="MICPOT Contacts Page | Technical Team Support"/>
+  <meta name="twitter:description" content="Contact MICPOT’s technical team for sourcing, specifications, quotes, and procurement support for industrial and automotive components."/>
+  <meta name="twitter:image" content="https://micpot.comadev.lv/assets/Screenshot_7.png"/>
   <link rel="stylesheet" href="styles/main.css"/>
   <script src="scripts/translations.js" defer></script>
   <script src="scripts/main.js" defer></script>
@@ -62,8 +80,13 @@
       </div>
       <div class="form-card">
         <h3 class="card-title" data-i18n="contact.form.title">Technical Inquiry Form</h3>
-        <form class="stack" data-form="contact" novalidate>
+        <form class="stack" data-form="contact" novalidate action="api/contact.php" method="post">
           <div class="form-status" data-form-status role="status" aria-live="polite"></div>
+          <!-- Honeypot (spam trap): real users will never fill this. -->
+          <div class="form-group" style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;" aria-hidden="true">
+            <label class="form-label" for="contact-website">Website</label>
+            <input class="form-input" id="contact-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="contact-name" data-i18n="contact.form.name">Full Name</label>
