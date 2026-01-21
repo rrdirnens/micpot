@@ -191,7 +191,7 @@ const setActiveNav = () => {
 
 // Resolve the page language based on dataset defaults and URL params.
 const resolveLanguage = () => {
-  let lang = document.body.dataset.lang || "en";
+  let lang = document.body.dataset.lang || "pl";
   const urlLang = new URLSearchParams(window.location.search).get("lang");
 
   if (urlLang === "en" || urlLang === "pl") {
@@ -205,7 +205,7 @@ const resolveLanguage = () => {
 
 // Adjusts language switch links and active state based on the current page's language.
 const setLanguageLinks = () => {
-  const lang = document.body.dataset.lang || "en";
+  const lang = document.body.dataset.lang || "pl";
   const path = window.location.pathname.split("/").pop() || "index.html";
   const buildLangUrl = (nextLang) => `${path}?lang=${nextLang}`;
   const homeHref = `index.html?lang=${lang}`;
