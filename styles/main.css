@@ -996,6 +996,49 @@ body.is-menu-open {
   align-items: center;
 }
 
+/* Cookie consent banner */
+body.has-cookie-banner {
+  padding-bottom: 5.5rem;
+}
+
+.cookie-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 60;
+  background: rgba(18, 21, 28, 0.95);
+  border-top: 1px solid var(--border-color);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 -15px 40px rgba(0, 0, 0, 0.45);
+}
+
+.cookie-banner__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 0;
+}
+
+.cookie-banner__text {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  max-width: 760px;
+}
+
+.cookie-banner__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.cookie-banner__actions .btn {
+  padding: 0.65rem 1.1rem;
+}
+
 .social-row {
   display: flex;
   gap: 0.75rem;
@@ -1085,6 +1128,23 @@ body.is-menu-open {
   }
 
   .hero-actions .btn {
+    width: 100%;
+  }
+
+  body.has-cookie-banner {
+    padding-bottom: 7.5rem;
+  }
+
+  .cookie-banner__inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cookie-banner__actions {
+    justify-content: stretch;
+  }
+
+  .cookie-banner__actions .btn {
     width: 100%;
   }
 }

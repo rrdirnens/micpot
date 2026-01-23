@@ -85,7 +85,7 @@ if (strlen($message) < 20) {
 
 // Configure recipients/sender (IMPORTANT: set From to a mailbox that exists on your server/domain).
 $to = 'office@micpot.pl';                 // TODO: change to your real inbox
-$from = 'no-reply@micpot.comadev.lv';     // TODO: create this mailbox (or change to an existing one)
+$from = 'no-reply@micpot.pl';     // TODO: create this mailbox (or change to an existing one)
 
 $subject = 'MICPOT inquiry: ' . $name;
 $lines = [

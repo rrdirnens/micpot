@@ -112,6 +112,7 @@ const footerFallback = `
       <span data-i18n="footer.copy" data-i18n-mode="html">© <span data-year>2024</span> MICPOT. Global Industrial Solutions. All rights reserved.</span>
       <div class="footer-links">
         <a href="privacy.html" data-i18n="footer.legal.privacy">Privacy &amp; Legal</a>
+        <a href="cookies.html" data-i18n="footer.legal.cookies">Cookie Policy</a>
         <a href="terms.html" data-i18n="footer.legal.terms">Partnership Terms</a>
         <a href="compliance.html" data-i18n="footer.legal.compliance">Compliance</a>
       </div>
@@ -246,6 +247,73 @@ const setLocalizedLinks = (lang) => {
 
     const relativeHref = `${url.pathname.replace(/^\//, "")}${url.search}`;
     link.setAttribute("href", relativeHref);
+  });
+};
+
+// Cookie consent banner (very basic): shows once and stores acceptance.
+const COOKIE_CONSENT_STORAGE_KEY = "micpot.cookieConsent";
+const COOKIE_CONSENT_COOKIE = "micpot_cookie_consent";
+
+const getCookie = (name) => {
+  const parts = document.cookie.split(";").map((part) => part.trim());
+  const hit = parts.find((part) => part.startsWith(`${name}=`));
+  return hit ? decodeURIComponent(hit.split("=").slice(1).join("=")) : null;
+};
+
+const hasCookieConsent = () => {
+  try {
+    if (localStorage.getItem(COOKIE_CONSENT_STORAGE_KEY) === "1") return true;
+  } catch {
+    // ignore storage errors
+  }
+  return getCookie(COOKIE_CONSENT_COOKIE) === "1";
+};
+
+const setCookieConsent = () => {
+  try {
+    localStorage.setItem(COOKIE_CONSENT_STORAGE_KEY, "1");
+  } catch {
+    // ignore storage errors
+  }
+  // 365 days
+  document.cookie = `${COOKIE_CONSENT_COOKIE}=1; Max-Age=31536000; Path=/; SameSite=Lax`;
+};
+
+const setupCookieConsentBanner = (lang) => {
+  if (hasCookieConsent()) return;
+  if (document.querySelector(".cookie-banner")) return;
+
+  const banner = document.createElement("div");
+  banner.className = "cookie-banner";
+  banner.setAttribute("role", "dialog");
+  banner.setAttribute("aria-live", "polite");
+
+  // Note: we build the privacy link with the current language, because this banner is injected
+  // after the first run of setLocalizedLinks().
+  const cookiePolicyHref = `cookies.html?lang=${encodeURIComponent(lang)}`;
+
+  banner.innerHTML = `
+    <div class="container">
+      <div class="cookie-banner__inner">
+        <div class="cookie-banner__text" data-i18n="cookie.text">
+          We use cookies to ensure basic site functionality and improve your experience.
+        </div>
+        <div class="cookie-banner__actions">
+          <a class="btn btn-ghost" href="${cookiePolicyHref}" data-i18n="cookie.learnMore">Learn more</a>
+          <button class="btn btn-primary" type="button" data-cookie-accept data-i18n="cookie.accept">Accept</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(banner);
+  document.body.classList.add("has-cookie-banner");
+
+  const acceptBtn = banner.querySelector("[data-cookie-accept]");
+  acceptBtn?.addEventListener("click", () => {
+    setCookieConsent();
+    banner.remove();
+    document.body.classList.remove("has-cookie-banner");
   });
 };
 
@@ -538,6 +606,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   setActiveNav();
   setLanguageLinks();
   setLocalizedLinks(resolvedLang);
+  setupCookieConsentBanner(resolvedLang);
   initAos();
   
   // This line is redundant as setYear() is called in loadPartial's finally block for site-footer.
